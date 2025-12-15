@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+
+  frontend:
+    image: ynot1074/fronteko:0.1
+    container_name: fronteko
+    ports:
+      - "80:8080"
+    environment:
+      TARGET_IP: "192.168.3.100"
+    depends_on:
+      - api
+    networks:
+      - internal_net
+
+  api:
+    image: ynot1074/apieko:0.1
+    container_name: apieko
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: 192.168.3.100
+      DB_USER: apiuser
+      DB_PASSWORD: supersecreto
+      DB_NAME: mydb
+      DB_PORT: 5432
+    depends_on:
+      - dbeko
+    networks:
+      - internal_net
+
+  dbeko:
+    image: ynot1074/dbeko:0.1
+    container_name: dbeko
+    environment:
+      POSTGRES_USER: apiuser
+      POSTGRES_PASSWORD: supersecreto
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - internal_net
+
+networks:
+  internal_net:
+    driver: bridge
+
+volumes:
+  pgdata:
