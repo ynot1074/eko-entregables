@@ -7,6 +7,7 @@ Servicio "fronteko" --> TARGET_IP debe asignarse el valor de la ip del host dond
 
 Servicio "apieko" --> DB_HOST debe asignarse el valor de la ip del host donde se ejecuta el compose.
 
+Crear la carpeta pg_data
 
 Ejecutar:
 
